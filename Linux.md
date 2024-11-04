@@ -884,6 +884,23 @@ date 参数
 
 ### 软件管理
 
+在使用 Docker 创建 CentOS 8时使用`docker run -d --name centos8 --privileged centos/systemd:latest`。
+
+CentOS 8 已停止更新，会导致 appstream 下载元数据失败。
+
+解决：
+
+```bash
+cd /etc/yum.repos.d/
+
+sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+
+yum clean all && yum makecache && yum update -y
+```
+
+
+
 ```bash
 # 列表
 yum list 软件包
@@ -931,7 +948,7 @@ rpm -ev 软件包
 
 
 
-### 防火墙
+### 防火墙及服务
 
 ```bash
 # 查看|开启|停止|重启
@@ -948,6 +965,19 @@ systemctl status|enable|disable|start|stop|restart iptables
 ```
 
 > 用途广泛。
+
+
+
+| Sysvinit command             | Systemd command                |
+| ---------------------------- | ------------------------------ |
+| service service_name start   | systemctl start service_name   |
+| service service_name stop    | systemctl stop service_name    |
+| service service_name restart | systemctl restart service_name |
+| service service_name status  | systemctl status service_name  |
+| chkconfig service_name on    | systemctl enable service_name  |
+| chkconfig service_name off   | systemctl disable service_name |
+
+> 出现 service: command not found错误，即 `initscripts`损坏，重新下载即可。
 
 
 
