@@ -943,6 +943,8 @@ yum clean all && yum makecache && yum update -y
 
 
 
+**`yum`** 用于Red Hat 系列，使用 **RPM（.rpm）** 格式的软件包。
+
 ```bash
 # 列表
 yum list 软件包
@@ -956,9 +958,20 @@ yum update 软件包
 yum remove 软件包
 ```
 
-> CentOS系统自带的软件管理。
+```bash
+# 查看所有已安装
+rpm -qa [软件包]
+# 安装
+rpm -ivh 软件包
+# 更新
+rpm -uvh 软件包
+# 卸载
+rpm -ev 软件包
+```
 
 
+
+**`apt`** 用于Debian 系列，使用 **DEB（.deb）** 格式的软件包。
 
 ```bash
 # 更新源
@@ -971,55 +984,37 @@ apt-get upgrade 软件包
 apt-get install 软件包
 # 卸载软件
 apt-get remove 软件包
+# 依赖修复
+apt-get install -f
+# 清理缓存
+apt-get clean
 ```
 
-> Debian系统自带的软件管理
-
-
-
 ```bash
+# 查看已安装
+dpkg -l [软件包]
 # 安装
-rpm -ivh 软件包
-# 更新
-rpm -uvh 软件包
+dpkg -i 软件包
 # 卸载
-rpm -ev 软件包
+dpkg -r 软件包
 ```
 
-> 对于 rpm 格式的软件包管理。
 
 
+### 系统服务
 
-### 防火墙及服务
+**SysVinit**：适合老旧的、对启动速度要求不高的系统，配置简单，但功能相对有限。
 
-```bash
-# 查看|开启|停止|重启
-service iptables status|start|stop|restart
-```
+**Systemd**：更现代、强大，适合对性能和功能有较高要求的系统，广泛应用于现代 Linux 发行版。
 
-> 临时设置，此处是防火墙服务，其他服务同理。
-
-
-
-```bash
-# 状态|自启|非自启|启动|停止|重启
-systemctl status|enable|disable|start|stop|restart iptables
-```
-
-> 用途广泛。
-
-
-
-| Sysvinit command             | Systemd command                |
-| ---------------------------- | ------------------------------ |
-| service service_name start   | systemctl start service_name   |
-| service service_name stop    | systemctl stop service_name    |
-| service service_name restart | systemctl restart service_name |
-| service service_name status  | systemctl status service_name  |
-| chkconfig service_name on    | systemctl enable service_name  |
-| chkconfig service_name off   | systemctl disable service_name |
-
-> 出现 service: command not found错误，即 `initscripts`损坏，重新下载即可。
+| Sysvinit command      | Systemd command          | 说明             |
+| --------------------- | ------------------------ | ---------------- |
+| service 服务名status  | systemctl status 服务名  | 查看             |
+| service 服务名 start  | systemctl start 服务名   | 运行             |
+| service 服务名stop    | systemctl stop 服务名    | 停止             |
+| service 服务名restart | systemctl restart 服务名 | 重启             |
+| chkconfig 服务名on    | systemctl enable 服务名  | 开启（开机启动） |
+| chkconfig 服务名off   | systemctl disable 服务名 | 关闭             |
 
 
 
