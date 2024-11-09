@@ -780,6 +780,8 @@ ip [命令] [选项] [参数]
 适用于 CentOS 和 RHEL，需要安装`firewalld`。
 
 ```bash
+# 查看
+firewall-cmd --list-ports
 # 开放
 firewall-cmd --add-port=3306/tcp --permanent
 # 关闭
@@ -797,6 +799,8 @@ firewall-cmd --reload
 iptables -L -v -n
 # 查看特定链规则
 iptables -L INPUT|FORWARD|OUTPUT -v -n
+# 查看指定端口
+iptables -L -n -v | grep ':80'
 
 # 开放
 iptables -A INPUT -p tcp --dport 80 -j ACCEPT
@@ -846,7 +850,7 @@ uname 参数
 hostnamectl set-hostname 主机名
 
 # 临时修改
-hostname z
+hostname 主机名
 ```
 
 
@@ -919,7 +923,7 @@ date 参数
 
 | 参数 | 说明                                     |
 | ---- | ---------------------------------------- |
-| 格式 | 指定输出格式，如 `+%Y-%m-%d %H:%M:%S`    |
+| 格式 | 指定输出格式，如 `+'%Y-%m-%d %H:%M:%S'`  |
 | -s   | 设置系统时间，如 `"2024-11-04 18:00:00"` |
 
 
